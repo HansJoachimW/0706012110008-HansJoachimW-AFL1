@@ -25,34 +25,38 @@ func openingScreen() {
 }
 
 func journeyScreen() {
-    print("From here, you can...?\n")
-    print("[C]heck your health and stats")
-    print("[H]eal your wounds with potion")
-    print("\n...or choose where you want to go")
-    print("\n[F]orest of Trolls")
-    print("[M]ountain of Golems")
-    print("[Q]uit game")
-    print("\nYour choice?", terminator: " ")
-    let option = readLine()!
-    switch option.lowercased() {
-    case "c":
-        playerStatsScreen()
-        break;
-    case "h":
-        healWoundScreen()
-        break;
-    case "f":
-        forestOfTrollsScreen()
-        break;
-    case "m":
-        mountainOfGolemsScreen()
-        break;
-    case "q":
-        print("Coward.")
-        break;
-    default:
-        break;
-    }
+    let option = ""
+    
+    repeat {
+        print("From here, you can...?\n")
+        print("[C]heck your health and stats")
+        print("[H]eal your wounds with potion")
+        print("\n...or choose where you want to go")
+        print("\n[F]orest of Trolls")
+        print("[M]ountain of Golems")
+        print("[Q]uit game")
+        print("\nYour choice?", terminator: " ")
+        let option = readLine()!
+        switch option.lowercased() {
+        case "c":
+            playerStatsScreen()
+            break;
+        case "h":
+            healWoundScreen()
+            break;
+        case "f":
+            forestOfTrollsScreen()
+            break;
+        case "m":
+            mountainOfGolemsScreen()
+            break;
+        case "q":
+            print("Coward.")
+            break;
+        default:
+            break;
+        }
+    } while (option.lowercased().contains("q"))
 }
 
 func playerStatsScreen() {
@@ -112,7 +116,7 @@ func healWoundScreen() {
 
 func forestOfTrollsScreen() {
     let monsterName: String = "Troll"
-    var monsterHP: Int = 1000
+    var monsterHP: Int = 200
     let monsterAmount: Int = 1
     
     var input = ""
@@ -123,7 +127,6 @@ func forestOfTrollsScreen() {
     repeat {
         if monsterHP < 0 {
             monsterHP = 0
-            print("The \(monsterName) has been defeated. You have gained +2 potions.")
         } else {
             print("Name: \(monsterName) x\(monsterAmount)")
             print("Health: \(monsterHP)")
@@ -134,8 +137,9 @@ func forestOfTrollsScreen() {
             print("[3] Shield. Use 10pt of MP. BLock enemy's attack in 1 turn.\n")
             
             print("[4] Use Potion to heal wound.")
-            print("[5] Scan enemy's vital.")
-            print("[6] Flee from battle.")
+            print("[5] Use Elixir to recover mana.")
+            print("[6] Scan enemy's vital.")
+            print("[7] Flee from battle.")
             
             print("\nYour Choice?")
             actionInput = readLine()!
@@ -143,8 +147,7 @@ func forestOfTrollsScreen() {
             switch actionInput {
             case "1":
                 monsterHP -= 5
-                HP -= 5
-                print("You have dealt 5 damage to the \(monsterName). You've also taken 5 damage due to its thorny shield.")
+                print("You have dealt 5 damage to the \(monsterName).")
                 break;
             case "2":
                 if MP < 15 {
@@ -178,9 +181,24 @@ func forestOfTrollsScreen() {
                 }
                 break;
             case "5":
-                print("A paracausal force stops you from analyzing you opponent. Maybe if you get good, you can use this skill.")
+                if elixirAmount == 0 {
+                    print("You don't have any elixirs left.")
+                } else {
+                    print("Your MP is \(MP).")
+                    print("You have \(elixirAmount) elixirs.")
+                    print("You use a potion to recover MP.")
+                    elixirAmount -= 1
+                    MP += 10
+                    
+                    if HP > 50 {
+                        HP = 50
+                    }
+                }
                 break;
             case "6":
+                print("A paracausal force stops you from analyzing you opponent. Maybe if you get good, you can use this skill.")
+                break;
+            case "7":
                 print("You feel that if you don't escape soon, you won't be able to continue the fight.")
                 print("You look aroud frantically, searching for a way out. You sprint towards the exit, your heart pounding in you chest.\n")
                 print("You're safe, for now.")
@@ -196,12 +214,15 @@ func forestOfTrollsScreen() {
                 break;
             }
         }
-    } while (input != "6")
+    } while (monsterHP != 0)
+    print("The \(monsterName) has been defeated. You have gained +2 potions and +4 elixirs.")
+    potionAmount += 2
+    elixirAmount += 4
 }
 
 func mountainOfGolemsScreen() {
     let monsterName: String = "Golem"
-    var monsterHP: Int = 2000
+    var monsterHP: Int = 300
     let monsterAmount: Int = 1
     
     var input = ""
@@ -212,7 +233,6 @@ func mountainOfGolemsScreen() {
     repeat {
         if monsterHP < 0 {
             monsterHP = 0
-            print("The \(monsterName) has been defeated. You have gained +3 potions.")
         } else {
             print("Name: \(monsterName) x\(monsterAmount)")
             print("Health: \(monsterHP)")
@@ -223,8 +243,9 @@ func mountainOfGolemsScreen() {
             print("[3] Shield. Use 10pt of MP. BLock enemy's attack in 1 turn.\n")
             
             print("[4] Use Potion to heal wound.")
-            print("[5] Scan enemy's vital.")
-            print("[6] Flee from battle.")
+            print("[5] Use Elixir to recover MP")
+            print("[6] Scan enemy's vital.")
+            print("[7] Flee from battle.")
             
             print("\nYour Choice?")
             actionInput = readLine()!
@@ -267,9 +288,24 @@ func mountainOfGolemsScreen() {
                 }
                 break;
             case "5":
-                print("A paracausal force stops you from analyzing you opponent. Maybe if you get good, you can use this skill.")
+                if elixirAmount == 0 {
+                    print("You don't have any elixirs left.")
+                } else {
+                    print("Your MP is \(MP).")
+                    print("You have \(elixirAmount) elixirs.")
+                    print("You use a potion to recover MP.")
+                    elixirAmount -= 1
+                    MP += 10
+                    
+                    if HP > 50 {
+                        HP = 50
+                    }
+                }
                 break;
             case "6":
+                print("A paracausal force stops you from analyzing you opponent. Maybe if you get good, you can use this skill.")
+                break;
+            case "7":
                 print("You feel that if you don't escape soon, you won't be able to continue the fight.")
                 print("You look aroud frantically, searching for a way out. You sprint towards the exit, your heart pounding in you chest.\n")
                 print("You're safe, for now.")
@@ -285,7 +321,10 @@ func mountainOfGolemsScreen() {
                 break;
             }
         }
-    } while (!actionInput.isEmpty)
+    } while (monsterHP != 0)
+    print("The \(monsterName) has been defeated. You have gained +3 potions and +2 elixirs.")
+    potionAmount += 3
+    elixirAmount += 2
 }
 
 func main() {
