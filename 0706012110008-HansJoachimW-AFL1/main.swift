@@ -12,6 +12,7 @@ private var HP: Int = 100
 private var MP: Int = 50
 private var potionAmount: Int = 10
 private var elixirAmount: Int = 5
+private var enemyList: [String : String] = ["Troll": "As you enter the forest, you feel a sense of unease wash over you. Suddenly, you hear the sound of twigs snapping behind you. You quickly spin around and find a Troll emerging from the shadows.", "Golem": "As you make your way through the rugged mountain terrain, you can feel the chill of the wind biting at your skin. Suddenly, you hear a sound that makes you freeze in your tracks. That's when you see it - a massive, snarling Golem emerging from the shadows."]
 
 func openingScreen() {
     repeat {
@@ -19,7 +20,7 @@ func openingScreen() {
         if let usernamePlaceholder = readLine() {
             username = usernamePlaceholder
         }
-    } while (username.isEmpty)
+    } while (username.isEmpty || username.rangeOfCharacter(from: CharacterSet.letters.inverted) != nil)
     print("\nNice to meet you, " + username + "!")
     journeyScreen()
 }
@@ -36,6 +37,7 @@ func journeyScreen() {
         print("[M]ountain of Golems")
         print("[Q]uit game")
         print("\nYour choice?", terminator: " ")
+        
         let option = readLine()!
         switch option.lowercased() {
         case "c":
@@ -60,7 +62,7 @@ func journeyScreen() {
 }
 
 func playerStatsScreen() {
-    var input = ""
+    var input = "placeholder"
     
     print("Player Name: \(username)")
     print("HP: \(HP)")
@@ -73,17 +75,19 @@ func playerStatsScreen() {
     print("- Potion x\(potionAmount). Heal 20pt of your MP.")
     print("- Elixir x\(elixirAmount). Add 10pt of your MP.")
     
-    repeat {
-        print("Press [return] to go back:", terminator: " ")
+    while (input.isEmpty == false) {
+        print("Press [return] to continue:", terminator: " ")
         input = readLine()!
-        
-        journeyScreen()
-        
-    } while (!input.isEmpty)
+        if (input.isEmpty == false) {
+            print("Enter, 4head.")
+        } else {
+            journeyScreen()
+        }
+    }
 }
 
 func healWoundScreen() {
-    var input = ""
+    var input = "placeholder"
     
     repeat {
         print("Your HP is \(HP).")
@@ -105,13 +109,15 @@ func healWoundScreen() {
     if potionAmount == 0 {
         print("You don't have any potions left. Be careful of your next journey.")
     }
-    repeat {
-        print("Press [return] to go back:", terminator: " ")
+    while (input.isEmpty == false) {
+        print("Press [return] to continue:", terminator: " ")
         input = readLine()!
-        
-        journeyScreen()
-        
-    } while (!input.isEmpty)
+        if (input.isEmpty == false) {
+            print("Enter, 4head.")
+        } else {
+            journeyScreen()
+        }
+    }
 }
 
 func forestOfTrollsScreen() {
@@ -119,10 +125,10 @@ func forestOfTrollsScreen() {
     var monsterHP: Int = 200
     let monsterAmount: Int = 1
     
-    var input = ""
+    var input = "placeholder"
     var actionInput: String
     
-    print("As you enter the forest, you feel a sense of unease wash over you.\nSuddenly, you hear the sound of twigs snapping behind you. You quickly spin around and find a Troll emerging from the shadows.")
+    print(enemyList["Troll"]!)
     
     repeat {
         if monsterHP < 0 {
@@ -196,19 +202,21 @@ func forestOfTrollsScreen() {
                 }
                 break;
             case "6":
-                print("A paracausal force stops you from analyzing you opponent. Maybe if you get good, you can use this skill.")
+                print("A paracausal force stops you from analyzing your opponent. Maybe if you get good, you can use this skill.")
                 break;
             case "7":
                 print("You feel that if you don't escape soon, you won't be able to continue the fight.")
                 print("You look aroud frantically, searching for a way out. You sprint towards the exit, your heart pounding in you chest.\n")
                 print("You're safe, for now.")
-                repeat {
+                while (input.isEmpty == false) {
                     print("Press [return] to continue:", terminator: " ")
                     input = readLine()!
-                    
-                    openingScreen()
-                    
-                } while (!input.isEmpty)
+                    if (input.isEmpty == false) {
+                        print("Enter, 4head.")
+                    } else {
+                        journeyScreen()
+                    }
+                }
                 break;
             default:
                 break;
@@ -218,6 +226,16 @@ func forestOfTrollsScreen() {
     print("The \(monsterName) has been defeated. You have gained +2 potions and +4 elixirs.")
     potionAmount += 2
     elixirAmount += 4
+    
+    while (input.isEmpty == false) {
+        print("Press [return] to continue:", terminator: " ")
+        input = readLine()!
+        if (input.isEmpty == false) {
+            print("Enter, 4head.")
+        } else {
+            journeyScreen()
+        }
+    }
 }
 
 func mountainOfGolemsScreen() {
@@ -225,10 +243,10 @@ func mountainOfGolemsScreen() {
     var monsterHP: Int = 300
     let monsterAmount: Int = 1
     
-    var input = ""
-    var actionInput = ""
+    var input = "placeholder"
+    var actionInput = "placeholder"
     
-    print("As you make your way through the rugged mountain terrain, you can feel the chill of the wind biting at your skin. Suddenly, you hear a sound that makes you freeze in your tracks. That's when you see it - a massive, snarling Golem emerging from the shadows.")
+    print(enemyList["Golem"]!)
     
     repeat {
         if monsterHP < 0 {
@@ -303,19 +321,21 @@ func mountainOfGolemsScreen() {
                 }
                 break;
             case "6":
-                print("A paracausal force stops you from analyzing you opponent. Maybe if you get good, you can use this skill.")
+                print("A paracausal force stops you from analyzing your opponent. Maybe if you get good, you can use this skill.")
                 break;
             case "7":
                 print("You feel that if you don't escape soon, you won't be able to continue the fight.")
                 print("You look aroud frantically, searching for a way out. You sprint towards the exit, your heart pounding in you chest.\n")
                 print("You're safe, for now.")
-                repeat {
+                while (input.isEmpty == false) {
                     print("Press [return] to continue:", terminator: " ")
                     input = readLine()!
-                    
-                    openingScreen()
-                    
-                } while (!input.isEmpty)
+                    if (input.isEmpty == false) {
+                        print("Enter, 4head.")
+                    } else {
+                        journeyScreen()
+                    }
+                }
                 break;
             default:
                 break;
@@ -325,20 +345,32 @@ func mountainOfGolemsScreen() {
     print("The \(monsterName) has been defeated. You have gained +3 potions and +2 elixirs.")
     potionAmount += 3
     elixirAmount += 2
+    
+    while (input.isEmpty == false) {
+        print("Press [return] to continue:", terminator: " ")
+        input = readLine()!
+        if (input.isEmpty == false) {
+            print("Enter, 4head.")
+        } else {
+            journeyScreen()
+        }
+    }
 }
 
 func main() {
-    var input = ""
+    var input = "placeholder"
 
-    print("Welcome to tbe world of magic! \nYou have been chosen to embark on an epic journey as a young wizard on the path to becoming a master of the arcane arts. \nYour adventure sites will take you to forests, mountains, and dungeons, where you will face challenges, make allies, and fight enemies")
-
-    repeat {
+    print("Welcome to the world of magic! \nYou have been chosen to embark on an epic journey as a young wizard on the path to becoming a master of the arcane arts. \nYour adventure sites will take you to forests, mountains, and dungeons, where you will face challenges, make allies, and fight enemies")
+    
+    while (input.isEmpty == false) {
         print("Press [return] to continue:", terminator: " ")
         input = readLine()!
-        
-        openingScreen()
-        
-    } while (!input.isEmpty)
+        if (input.isEmpty == false) {
+            print("Enter, 4head.")
+        } else {
+            openingScreen()
+        }
+    }
 }
 
 print(main())
