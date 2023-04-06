@@ -58,7 +58,7 @@ struct Hero {
               Health: \(baseHealth)/\(maxHealth)
               Mana: \(baseMana)/\(maxMana)
               Magic:
-                    - Physical Attack. No mana required. Deal 5pt of damage.
+                    - Physical Attack. No mana required. Deal 5pts of damage.
                     - Meteor. Use 15pt of MP. Deal \(baseAttack + bonusAttack)pt of damage.
                     - Shield. Use 10pt of MP. Negate damage taken from enemy's attack in 1 turn.
               Backpack:
