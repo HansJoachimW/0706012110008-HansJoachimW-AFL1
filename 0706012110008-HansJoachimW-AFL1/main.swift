@@ -243,7 +243,7 @@ func forestOfTrollsScreen() {
                     print("You don't have a sufficient amount of mana.")
                 } else {
                     troll.enemyBaseHealth -= (mainCharacter.baseAttack + mainCharacter.bonusAttack)
-                    mainCharacter.currentHealth -= troll.enemyBaseAttack
+                    mainCharacter.decreaseHP(by: troll.enemyBaseAttack)
                     print("You have dealt \(mainCharacter.baseAttack + mainCharacter.bonusAttack) damage to the \(troll.enemyBaseHealth). You've also taken \(troll.enemyBaseAttack) damage due to its rigid exterior. You have spent 15 mana.")
                 }
                 break;
@@ -378,7 +378,7 @@ func mountainOfGolemsScreen() {
             switch actionInput {
             case "1":
                 golem.enemyBaseHealth -= 5
-                mainCharacter.currentHealth -= golem.enemyBaseAttack
+                mainCharacter.decreaseHP(by: golem.enemyBaseAttack)
                 print("You have dealt 5 damage to the \(golem.enemyBaseHealth). You've also taken \(golem.enemyBaseAttack) damage due to its rigid exterior.")
                 break;
             case "2":
