@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0402542229ADA01600B61023 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0402542129ADA01600B61023 /* main.swift */; };
+		04888C9029DA6A27006F9CAD /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04888C8F29DA6A27006F9CAD /* Hero.swift */; };
+		04888C9229DA6B14006F9CAD /* Equipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04888C9129DA6B14006F9CAD /* Equipment.swift */; };
+		04888C9429DA6B6E006F9CAD /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04888C9329DA6B6E006F9CAD /* Enemy.swift */; };
+		04888C9E29DF5E07006F9CAD /* Backpack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04888C9D29DF5E07006F9CAD /* Backpack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +29,10 @@
 /* Begin PBXFileReference section */
 		0402541E29ADA01600B61023 /* 0706012110008-HansJoachimW-AFL1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "0706012110008-HansJoachimW-AFL1"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0402542129ADA01600B61023 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		04888C8F29DA6A27006F9CAD /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
+		04888C9129DA6B14006F9CAD /* Equipment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equipment.swift; sourceTree = "<group>"; };
+		04888C9329DA6B6E006F9CAD /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		04888C9D29DF5E07006F9CAD /* Backpack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backpack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,10 @@
 			isa = PBXGroup;
 			children = (
 				0402542129ADA01600B61023 /* main.swift */,
+				04888C8F29DA6A27006F9CAD /* Hero.swift */,
+				04888C9129DA6B14006F9CAD /* Equipment.swift */,
+				04888C9329DA6B6E006F9CAD /* Enemy.swift */,
+				04888C9D29DF5E07006F9CAD /* Backpack.swift */,
 			);
 			path = "0706012110008-HansJoachimW-AFL1";
 			sourceTree = "<group>";
@@ -120,7 +132,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04888C9E29DF5E07006F9CAD /* Backpack.swift in Sources */,
+				04888C9429DA6B6E006F9CAD /* Enemy.swift in Sources */,
 				0402542229ADA01600B61023 /* main.swift in Sources */,
+				04888C9029DA6A27006F9CAD /* Hero.swift in Sources */,
+				04888C9229DA6B14006F9CAD /* Equipment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
