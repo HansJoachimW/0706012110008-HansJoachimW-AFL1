@@ -9,7 +9,7 @@ import Foundation
 
 protocol Enemy {
     func bossEncounter(chance: Int)
-    func basicAttack(target: Hero)
+    func takeDamage(by point: Int)
 }
 
 class Mob: Enemy {
@@ -42,8 +42,7 @@ class Mob: Enemy {
         }
     }
     
-    func basicAttack(target: Hero) {
-        mainCharacter.baseHealth -= enemyBaseAttack
-        print("You have taken \(enemyBaseAttack) damage.")
+    func takeDamage(by point: Int) {
+        enemyBaseHealth -= point
     }
 }

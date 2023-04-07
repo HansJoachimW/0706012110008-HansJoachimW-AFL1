@@ -23,13 +23,11 @@ struct Hero {
     var baseAttack: Int
     var bonusAttack: Int
     
-    var potionAmount: Int
-    var elixirAmount: Int
-    var aegisAmount: Int
+    var potion: Potion
+    var elixir: Elixir
+    var aegis: Aegis
     
-    var stash: [Equipment]
-    
-    init(name: String, baseHealth: Int, bonusHealth: Int, maxHealth: Int, baseMana: Int, bonusMana: Int, maxMana: Int, baseAttack: Int, bonusAttack: Int, potionAmount: Int, elixirAmount: Int, aegisAmount: Int, stash: [Equipment]) {
+    init(name: String, baseHealth: Int, bonusHealth: Int, maxHealth: Int, baseMana: Int, bonusMana: Int, maxMana: Int, baseAttack: Int, bonusAttack: Int, potion: Potion, elixir: Elixir, aegis: Aegis) {
         self.name = name
         
         self.baseHealth = baseHealth
@@ -45,11 +43,9 @@ struct Hero {
         self.baseAttack = baseAttack
         self.bonusAttack = bonusAttack
         
-        self.potionAmount = potionAmount
-        self.elixirAmount = elixirAmount
-        self.aegisAmount = aegisAmount
-        
-        self.stash = stash
+        self.potion = potion
+        self.elixir = elixir
+        self.aegis = aegis
     }
     
     mutating func getCharacterInfo(){
@@ -62,13 +58,13 @@ struct Hero {
                     - Meteor. Use 15pt of MP. Deal \(baseAttack + bonusAttack)pt of damage.
                     - Shield. Use 10pt of MP. Negate damage taken from enemy's attack in 1 turn.
               Backpack:
-                    - Potion x\(potionAmount). Heal 20pt of your MP.
-                    - Elixir x\(elixirAmount). Add 10pt of your MP.
-                    - Aegis x\(aegisAmount). Permanently add 20pt of your HP and MP.
+                    - Potion x\(tango.potionAmount). Heal 20pt of your MP.
+                    - Elixir x\(clarity.elixirAmount). Add 10pt of your MP.
+                    - Aegis x\(aegis.aegisAmount). Permanently add 20pt of your HP and MP.
               """)
     }
 
     mutating func decreaseHP(by point: Int) {
-        baseHealth -= point
+        currentHealth -= point
     }
 }

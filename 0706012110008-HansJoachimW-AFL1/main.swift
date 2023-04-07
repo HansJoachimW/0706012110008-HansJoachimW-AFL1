@@ -13,7 +13,13 @@ var otherside = AttackEquipment("The Other Side", tier: 5, bonus: 50)
 
 var loot = [anarchy, otherside]
 
-var mainCharacter = Hero(name: "", baseHealth: 100, bonusHealth: 0, maxHealth: 100, baseMana: 50, bonusMana: 0, maxMana: 50, baseAttack: 20, bonusAttack: 0, potionAmount: 5, elixirAmount: 5, aegisAmount: 0, stash: [])
+var tango = Potion(itemType: "Tango", potionAmount: 10)
+
+var clarity = Elixir(itemType: "Clarity", elixirAmount: 5)
+
+var aegis = Aegis(itemType: "Aegis", aegisAmount: 0)
+
+var mainCharacter = Hero(name: "", baseHealth: 100, bonusHealth: 0, maxHealth: 100, baseMana: 50, bonusMana: 0, maxMana: 50, baseAttack: 20, bonusAttack: 0, potion: tango, elixir: clarity, aegis: aegis)
 
 var troll = Mob(enemyName: "Trolls of the Forest", enemyClass: "", enemyBaseHealth: 500, enemyBaseAttack: 15, itemDrops: loot, potionDrop: 2, elixirDrop: 4, aegisDrop: 0)
 
@@ -82,13 +88,13 @@ func playerStatsScreen() {
           Health: \(mainCharacter.currentHealth)/\(mainCharacter.maxHealth)
           Mana: \(mainCharacter.currentMana)/\(mainCharacter.maxMana)
           Magic:
-                - Physical Attack. No mana required. Deal \(mainCharacter.baseAttack)pt of damage.
+                - Physical Attack. No mana required. Deal 5pt of damage.
                 - Meteor. Use 15pt of MP. Deal \(mainCharacter.baseAttack + mainCharacter.bonusAttack)pt of damage.
                 - Shield. Use 10pt of MP. Negate damage taken from enemy's attack in 1 turn.
           Backpack:
-                - Potion x\(mainCharacter.potionAmount). Heal 20pt of your MP.
-                - Elixir x\(mainCharacter.elixirAmount). Add 10pt of your MP.
-                - Aegis x\(mainCharacter.aegisAmount). Permanently add 20pt of your HP and MP.
+                - Potion x\(tango.potionAmount). Heal 20pt of your MP.
+                - Elixir x\(clarity.elixirAmount). Add 10pt of your MP.
+                - Aegis x\(aegis.aegisAmount). Permanently add 20pt of your HP and MP.
           """)
     
     while (input.isEmpty == false) {
@@ -107,12 +113,11 @@ func healWoundScreen() {
     
     repeat {
         print("Your HP is \(mainCharacter.currentHealth)/\(mainCharacter.maxHealth).")
-            print("You have \(mainCharacter.potionAmount) Potions")
+            print("You have \(tango.potionAmount) Potions")
             print("Are you sure you want to use 1 potion to heal your wound? [Y/N]", terminator: " ")
             let option = readLine()!
             if option.lowercased() == "y" {
-                mainCharacter.potionAmount -= 1
-                mainCharacter.currentHealth += 20
+                tango.healWound(target: mainCharacter)
                 
                 if mainCharacter.currentHealth > mainCharacter.maxHealth {
                     mainCharacter.currentHealth = mainCharacter.maxHealth
@@ -120,9 +125,9 @@ func healWoundScreen() {
             } else if option.lowercased() == "n" {
                 break;
             }
-    } while (mainCharacter.potionAmount != 0)
+    } while (tango.potionAmount != 0)
     
-    if mainCharacter.potionAmount == 0 {
+    if tango.potionAmount == 0 {
         print("You don't have any potions left. Be careful of your next journey.")
     }
     while (input.isEmpty == false) {
@@ -141,12 +146,11 @@ func extractManaScreen() {
     
     repeat {
         print("Your MP is \(mainCharacter.currentMana)/\(mainCharacter.maxMana).")
-        print("You have \(mainCharacter.elixirAmount) Potions")
+        print("You have \(clarity.elixirAmount) Potions")
         print("Are you sure you want to use 1 elixir to regain mana? [Y/N]", terminator: " ")
         let option = readLine()!
         if option.lowercased() == "y" {
-            mainCharacter.elixirAmount -= 1
-            mainCharacter.currentMana += 10
+            clarity.extractMana(target: mainCharacter)
             
             if mainCharacter.currentMana > mainCharacter.maxMana {
                 mainCharacter.currentMana = mainCharacter.maxMana
@@ -154,9 +158,9 @@ func extractManaScreen() {
         } else if option.lowercased() == "n" {
             break;
         }
-    } while (mainCharacter.elixirAmount != 0)
+    } while (clarity.elixirAmount != 0)
     
-    if mainCharacter.elixirAmount == 0 {
+    if clarity.elixirAmount == 0 {
         print("You don't have any elixirs left. Be careful of your next journey.")
     }
     while (input.isEmpty == false) {
@@ -176,21 +180,19 @@ func reinvigorateScreen() {
     repeat {
         print("Your max HP is \(mainCharacter.maxHealth).")
         print("Your max MP is \(mainCharacter.maxMana).")
-        print("You have \(mainCharacter.aegisAmount) aegises")
+        print("You have \(aegis.aegisAmount) aegises")
         print("Are you sure you want to use 1 aegis to permanently boost stats? [Y/N]", terminator: " ")
         let option = readLine()!
         if option.lowercased() == "y" {
-            if mainCharacter.aegisAmount == 0 {
-                mainCharacter.aegisAmount -= 1
-                mainCharacter.maxHealth += 20
-                mainCharacter.maxMana += 20
+            if aegis.aegisAmount == 0 {
+                aegis.reinvigorate(target: mainCharacter)
             }
         } else if option.lowercased() == "n" {
             break;
         }
-    } while (mainCharacter.elixirAmount != 0)
+    } while (aegis.aegisAmount != 0)
     
-    if mainCharacter.elixirAmount == 0 {
+    if aegis.aegisAmount == 0 {
         print("You don't have any aegises left. Be careful of your next journey.")
     }
     while (input.isEmpty == false) {
@@ -220,7 +222,7 @@ func forestOfTrollsScreen() {
             print("Name: \(troll.enemyName)")
             print("Health: \(troll.enemyBaseHealth)")
             print("Choose your action:")
-            print("[1] Physical Attack. No mana required. Deal \(mainCharacter.baseAttack)pt of damage.")
+            print("[1] Physical Attack. No mana required. Deal 5pt of damage.")
             print("[2] Meteor. Use 15pt of MP. Deal \(mainCharacter.baseAttack + mainCharacter.bonusAttack)pt of damage.")
             print("[3] Shield. Use 10pt of MP. Negate damage taken from enemy's attack in 1 turn.\n")
             
@@ -235,15 +237,16 @@ func forestOfTrollsScreen() {
             
             switch actionInput {
             case "1":
-                troll.enemyBaseHealth -= 5
+                troll.takeDamage(by: 5)
                 print("You have dealt 5 damage to the \(troll.enemyName).")
                 break;
             case "2":
                 if mainCharacter.currentMana < 15 {
                     print("You don't have a sufficient amount of mana.")
                 } else {
-                    troll.enemyBaseHealth -= (mainCharacter.baseAttack + mainCharacter.bonusAttack)
+                    troll.takeDamage(by: (mainCharacter.baseAttack + mainCharacter.bonusAttack))
                     mainCharacter.decreaseHP(by: troll.enemyBaseAttack)
+                    mainCharacter.currentMana -= 15
                     print("You have dealt \(mainCharacter.baseAttack + mainCharacter.bonusAttack) damage to the \(troll.enemyBaseHealth). You've also taken \(troll.enemyBaseAttack) damage due to its rigid exterior. You have spent 15 mana.")
                 }
                 break;
@@ -251,18 +254,18 @@ func forestOfTrollsScreen() {
                 if mainCharacter.currentMana < 10 {
                     print("You don't have a sufficient amount of mana.")
                 } else {
+                    mainCharacter.currentMana -= 10
                     print("You have successfully blocked the \(troll.enemyName)'s attack.You have spent 10 mana.")
                 }
                 break;
             case "4":
-                if mainCharacter.potionAmount == 0 {
+                if tango.potionAmount == 0 {
                     print("You don't have any potions left.")
                 } else {
                     print("Your HP is \(mainCharacter.currentHealth).")
-                    print("You have \(mainCharacter.potionAmount) potions.")
+                    print("You have \(tango.potionAmount) potions.")
                     print("You use a potion to heal your wound.")
-                    mainCharacter.potionAmount -= 1
-                    mainCharacter.currentHealth += 20
+                    tango.healWound(target: mainCharacter)
                     
                     if mainCharacter.currentHealth > mainCharacter.maxHealth {
                         mainCharacter.currentHealth = mainCharacter.maxHealth
@@ -270,14 +273,13 @@ func forestOfTrollsScreen() {
                 }
                 break;
             case "5":
-                if mainCharacter.elixirAmount == 0 {
+                if clarity.elixirAmount == 0 {
                     print("You don't have any elixirs left.")
                 } else {
                     print("Your MP is \(mainCharacter.currentMana).")
-                    print("You have \(mainCharacter.elixirAmount) elixirs.")
+                    print("You have \(clarity.elixirAmount) elixirs.")
                     print("You use a potion to recover MP.")
-                    mainCharacter.elixirAmount -= 1
-                    mainCharacter.currentMana += 10
+                    clarity.extractMana(target: mainCharacter)
                     
                     if mainCharacter.currentMana > mainCharacter.maxMana {
                         mainCharacter.currentMana = mainCharacter.maxMana
@@ -285,16 +287,14 @@ func forestOfTrollsScreen() {
                 }
                 break;
             case "6":
-                if mainCharacter.aegisAmount == 0 {
+                if aegis.aegisAmount == 0 {
                     print("You don't have any aegises.")
                 } else {
                     print("Your max HP is \(mainCharacter.maxHealth).")
                     print("Your max MP is \(mainCharacter.maxMana).")
-                    print("You have \(mainCharacter.aegisAmount) aegises.")
+                    print("You have \(aegis.aegisAmount) aegises.")
                     print("You use an aegis to increase your max HP and MP.")
-                    mainCharacter.aegisAmount -= 1
-                    mainCharacter.maxHealth += 20
-                    mainCharacter.maxMana += 20
+                    aegis.reinvigorate(target: mainCharacter)
                 }
                     break;
                 case "7":
@@ -320,9 +320,9 @@ func forestOfTrollsScreen() {
             }
         } while (troll.enemyBaseHealth != 0)
     print("The \(troll.enemyName) has been defeated. You have gained +\(troll.potionDrop) potions, +\(troll.elixirDrop) elixirs and \(troll.aegisDrop) aegises.")
-    mainCharacter.potionAmount += troll.potionDrop
-    mainCharacter.elixirAmount += troll.elixirDrop
-    mainCharacter.aegisAmount += troll.aegisDrop
+    tango.potionAmount += troll.potionDrop
+    clarity.elixirAmount += troll.elixirDrop
+    aegis.aegisAmount += troll.aegisDrop
     
     let equipmentDropChance = Int.random(in: 1...100)
     
@@ -377,7 +377,7 @@ func mountainOfGolemsScreen() {
             
             switch actionInput {
             case "1":
-                golem.enemyBaseHealth -= 5
+                golem.takeDamage(by: 5)
                 mainCharacter.decreaseHP(by: golem.enemyBaseAttack)
                 print("You have dealt 5 damage to the \(golem.enemyBaseHealth). You've also taken \(golem.enemyBaseAttack) damage due to its rigid exterior.")
                 break;
@@ -385,7 +385,7 @@ func mountainOfGolemsScreen() {
                 if mainCharacter.currentMana < 15 {
                     print("You don't have a sufficient amount of mana.")
                 } else {
-                    golem.enemyBaseHealth -= (mainCharacter.baseAttack + mainCharacter.bonusAttack)
+                    golem.takeDamage(by: (mainCharacter.baseAttack + mainCharacter.bonusAttack))
                     mainCharacter.currentMana -= 15
                     print("You have dealt \(mainCharacter.baseAttack + mainCharacter.bonusAttack) damage to the \(golem.enemyName). You have spent 15 mana.")
                 }
@@ -399,14 +399,13 @@ func mountainOfGolemsScreen() {
                 }
                 break;
             case "4":
-                if mainCharacter.potionAmount == 0 {
+                if tango.potionAmount == 0 {
                     print("You don't have any potions left.")
                 } else {
                     print("Your HP is \(mainCharacter.currentHealth).")
-                    print("You have \(mainCharacter.potionAmount) potions.")
+                    print("You have \(tango.potionAmount) potions.")
                     print("You use a potion to heal your wound.")
-                    mainCharacter.potionAmount -= 1
-                    mainCharacter.currentHealth += 20
+                    tango.healWound(target: mainCharacter)
                     
                     if mainCharacter.currentHealth > mainCharacter.maxHealth {
                         mainCharacter.currentHealth = mainCharacter.maxHealth
@@ -414,14 +413,13 @@ func mountainOfGolemsScreen() {
                 }
                 break;
             case "5":
-                if mainCharacter.elixirAmount == 0 {
+                if clarity.elixirAmount == 0 {
                     print("You don't have any elixirs left.")
                 } else {
                     print("Your MP is \(mainCharacter.currentMana).")
-                    print("You have \(mainCharacter.elixirAmount) elixirs.")
+                    print("You have \(clarity.elixirAmount) elixirs.")
                     print("You use a potion to recover MP.")
-                    mainCharacter.elixirAmount -= 1
-                    mainCharacter.currentMana += 10
+                    clarity.extractMana(target: mainCharacter)
                     
                     if mainCharacter.currentMana > mainCharacter.maxMana {
                         mainCharacter.currentMana = mainCharacter.maxMana
@@ -429,16 +427,14 @@ func mountainOfGolemsScreen() {
                 }
                 break;
             case "6":
-                if mainCharacter.aegisAmount == 0 {
+                if aegis.aegisAmount == 0 {
                     print("You don't have any aegises.")
                 } else {
                     print("Your max HP is \(mainCharacter.maxHealth).")
                     print("Your max MP is \(mainCharacter.maxMana).")
-                    print("You have \(mainCharacter.aegisAmount) aegises.")
+                    print("You have \(aegis.aegisAmount) aegises.")
                     print("You use an aegis to increase your max HP and MP.")
-                    mainCharacter.aegisAmount -= 1
-                    mainCharacter.maxHealth += 20
-                    mainCharacter.maxMana += 20
+                    aegis.reinvigorate(target: mainCharacter)
                 }
                 break;
             case "7":
@@ -464,9 +460,9 @@ func mountainOfGolemsScreen() {
         }
     } while (golem.enemyBaseHealth != 0)
     print("The \(golem.enemyName) has been defeated. You have gained +\(golem.potionDrop) potions, +\(golem.elixirDrop) elixirs and +\(golem.aegisDrop) aegises.")
-    mainCharacter.potionAmount += golem.potionDrop
-    mainCharacter.elixirAmount += golem.elixirDrop
-    mainCharacter.aegisAmount += golem.aegisDrop
+    tango.potionAmount += golem.potionDrop
+    clarity.elixirAmount += golem.elixirDrop
+    aegis.aegisAmount += golem.aegisDrop
     
     let equipmentDropChance = Int.random(in: 1...100)
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Backpack {
+class Consumable {
     var itemType: String
     
     init(itemType: String) {
@@ -15,7 +15,7 @@ class Backpack {
     }
 }
 
-class Potion: Backpack {
+class Potion: Consumable {
     var potionAmount: Int
     
     init(itemType: String, potionAmount: Int) {
@@ -23,13 +23,13 @@ class Potion: Backpack {
         super.init(itemType: itemType)
     }
 
-    func healWound(player: Hero) {
-        mainCharacter.potionAmount -= 1
-        mainCharacter.baseHealth += 20
+    func healWound(target: Hero) {
+        tango.potionAmount -= 1
+        mainCharacter.currentHealth += 20
     }
 }
 
-class Elixir: Backpack {
+class Elixir: Consumable {
     var elixirAmount: Int
     
     init(itemType: String, elixirAmount: Int) {
@@ -37,13 +37,13 @@ class Elixir: Backpack {
         super.init(itemType: itemType)
     }
     
-    func extractMana(player: Hero) {
-        mainCharacter.elixirAmount -= 1
-        mainCharacter.baseMana += 10
+    func extractMana(target: Hero) {
+        clarity.elixirAmount -= 1
+        mainCharacter.currentMana += 10
     }
 }
 
-class Aegis: Backpack {
+class Aegis: Consumable {
     var aegisAmount: Int
     
     init(itemType: String, aegisAmount: Int) {
@@ -52,7 +52,7 @@ class Aegis: Backpack {
     }
     
     func reinvigorate(target: Hero) {
-        mainCharacter.aegisAmount -= 1
+        aegis.aegisAmount -= 1
         mainCharacter.maxHealth += 20
         mainCharacter.maxMana += 20
     }
