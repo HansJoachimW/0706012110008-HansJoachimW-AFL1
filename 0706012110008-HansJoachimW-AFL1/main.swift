@@ -181,13 +181,15 @@ func reinvigorateScreen() {
         print("Your max HP is \(mainCharacter.maxHealth).")
         print("Your max MP is \(mainCharacter.maxMana).")
         print("You have \(aegis.aegisAmount) aegises")
-        print("Are you sure you want to use 1 aegis to permanently boost stats? [Y/N]", terminator: " ")
-        let option = readLine()!
-        if option.lowercased() == "y" {
-            if aegis.aegisAmount == 0 {
+        if aegis.aegisAmount > 0 {
+            print("Are you sure you want to use 1 aegis to permanently boost stats? [Y/N]", terminator: " ")
+            let option = readLine()!
+            if option.lowercased() == "y" {
                 aegis.reinvigorate(target: mainCharacter)
+            } else if option.lowercased() == "n" {
+                break;
             }
-        } else if option.lowercased() == "n" {
+        } else {
             break;
         }
     } while (aegis.aegisAmount != 0)
